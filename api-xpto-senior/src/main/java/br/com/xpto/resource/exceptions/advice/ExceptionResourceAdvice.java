@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import br.com.xpto.resource.errors.ErrorMessage;
 import br.com.xpto.resource.errors.ErrorMessageBuilder;
+import br.com.xpto.resource.exceptions.CityException;
 import br.com.xpto.resource.exceptions.CsvConvertException;
 import br.com.xpto.resource.exceptions.CsvDirectoryFailCreateException;
 import br.com.xpto.resource.exceptions.CsvException;
@@ -35,6 +36,14 @@ public class ExceptionResourceAdvice
   public ErrorMessage exceptionHandler(UnauthorizedException ex)
   {
     return errorBuilder.withDeveloperMessage(MessageFormat.format("Unauthorized - {0}", ex.getParameters())).withUserMessage("You are not authorized to perform this operation").withErrorCode(30001).build();
+  }
+  
+  @ResponseBody
+  @ExceptionHandler({CityException.class})
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public ErrorMessage exceptionHandler(CityException ex)
+  {
+    return errorBuilder.withDeveloperMessage(MessageFormat.format("Internal Server Error - {0}", ex.getParameters())).withUserMessage("Houve um erro ao listar os estados").withErrorCode(30001).build();
   }
   
   @ResponseBody

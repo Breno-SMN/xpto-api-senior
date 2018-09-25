@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "cities")
-public class CityModel {
+public class CityModel implements Comparable<CityModel>{
 	@Id
 	private Long ibgeId;
 	@NotBlank
@@ -140,5 +140,10 @@ public class CityModel {
 				+ ", lat=" + lat + ", noAccents=" + noAccents + ", alternativeNames=" + alternativeNames
 				+ ", microregion=" + microregion + ", mesoregion=" + mesoregion + "]";
 	}
+	
+	@Override
+	 public int compareTo(CityModel s) {
+	        return this.getName().compareTo(s.getName());
+	    }
 
 }
