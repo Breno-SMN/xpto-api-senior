@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "file.upload.diretorio.csv",
+  "type": "java.lang.String",
+  "description": "A description for 'file.upload.diretorio.csv'"
+}]}
