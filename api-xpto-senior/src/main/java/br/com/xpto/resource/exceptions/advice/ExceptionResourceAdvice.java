@@ -22,7 +22,7 @@ import br.com.xpto.resource.exceptions.UnauthorizedException;
 
 
 
-@ControllerAdvice(basePackages={"com.ciandt"})
+@ControllerAdvice(basePackages={"br.com.xpto"})
 public class ExceptionResourceAdvice
 {
   @Autowired

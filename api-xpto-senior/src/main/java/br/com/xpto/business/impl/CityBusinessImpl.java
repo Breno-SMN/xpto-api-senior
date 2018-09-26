@@ -91,15 +91,25 @@ public class CityBusinessImpl implements CityBusiness {
 
 	@Override
 	public Optional<CityModel> create(CityModel entity) {
-		// TODO Auto-generated method stub
-		return null;
+		CityModel cityModel;
+		try {
+			cityModel = cityRepository.save(entity);
+		}catch(Exception ex){
+			throw new CityException(new Object[] {ex.getMessage()});
+		}
+		return Optional.ofNullable(cityModel);
 	}
 
-
+	// pesquisa a cidade pelo IBGE
 	@Override
 	public Optional<CityModel> findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<CityModel> city;
+		try {
+			city = cityRepository.findById(id);
+		}catch (Exception ex) {
+			throw new CityException(new Object[] {ex.getMessage()});
+		}
+		return city;
 	}
 
 
@@ -167,5 +177,36 @@ public class CityBusinessImpl implements CityBusiness {
 			throw new CityException(new Object[] {e.getMessage()});
 		}
 	}
+
+
+	@Override
+	public Optional<List<StateModel>> listQtdCidadesUf() {
+		
+		try {
+			List<StateModel> estadoQtdCity = new ArrayList<>();
+			
+			// busca no banco uma consulta personalizada e traz de acordo com o model referenciado
+			estadoQtdCity = cityRepository.getQtdeCityEstados();
+			
+			return Optional.ofNullable(estadoQtdCity);
+		} catch (Exception e) {
+			throw new CityException(new Object[] {e.getMessage()});
+		}
+	}
+
+
+	@Override
+	public Optional<List<CityModel>> findByEstado(String estado) {
+		List<CityModel> cities;
+		try {
+			cities = cityRepository.findByEstado(estado);
+		
+		} catch (Exception e) {
+			throw new CityException(new Object[] {e.getMessage()});
+		}
+		return Optional.ofNullable(cities);
+	}
+	
+	
 	
 }

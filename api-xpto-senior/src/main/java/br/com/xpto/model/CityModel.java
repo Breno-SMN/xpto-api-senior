@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "cities")
 public class CityModel implements Comparable<CityModel>{
 	@Id
+	@Column(name = "ibge_id")
 	private Long ibgeId;
 	@NotBlank
 	private String uf;

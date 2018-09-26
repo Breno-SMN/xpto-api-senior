@@ -5,10 +5,15 @@ import static org.springframework.http.HttpStatus.OK;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -74,6 +79,82 @@ public class CityResource extends BaseResource{
 			
 			// DEVOLVE A RESPOSTA
 			return buildResponse(OK, estados, offset, limit);
+		
+	}
+	
+	@RequestMapping(value ="/cidadesUf", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public @ResponseBody ResponseEntity<?> listQtdCidadesUf(
+			@RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset,
+			@RequestParam(name = "limit", required = false, defaultValue = "50") Integer limit){
+
+		Optional<List<StateModel>> estados;
+		
+		try {
+			// BUSCA TODA A LISTA E DEVOLVE UM OPTIONAL
+			estados = this.cityService.listQtdCidadesUf();
+		
+		}catch(Exception ex) {
+			return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
+			// VERIFICA SE ESTA VAZIO
+			checkNotNull(estados, "Estados");
+			
+			// DEVOLVE A RESPOSTA
+			return buildResponse(OK, estados, offset, limit);
+		
+	}
+	
+	@RequestMapping(value ="/ibge/{ibge}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public @ResponseBody ResponseEntity<?> listCityByIbge(@PathVariable Long ibge,
+			@RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset,
+			@RequestParam(name = "limit", required = false, defaultValue = "50") Integer limit){
+
+		Optional<CityModel> city;
+		
+		try {
+			// BUSCA TODA A LISTA E DEVOLVE UM OPTIONAL
+			city = this.cityService.findById(ibge);
+		
+		}catch(Exception ex) {
+			return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
+			// VERIFICA SE ESTA VAZIO
+			checkNotNull(city, "Cidade");
+			
+			// DEVOLVE A RESPOSTA
+			return buildResponse(OK, city, offset, limit);
+		
+	}
+	
+	@RequestMapping(value ="/estado/{estado}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public @ResponseBody ResponseEntity<?> listCityByEstado(@PathVariable String estado,
+			@RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset,
+			@RequestParam(name = "limit", required = false, defaultValue = "50") Integer limit){
+
+		Optional<List<CityModel>> cities;
+		
+		try {
+			// BUSCA TODA A LISTA E DEVOLVE UM OPTIONAL
+			cities = this.cityService.findByEstado(estado);
+		
+		}catch(Exception ex) {
+			return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
+			// VERIFICA SE ESTA VAZIO
+			checkNotNull(cities, "Cidades");
+			
+			// DEVOLVE A RESPOSTA
+			return buildResponse(OK, cities, offset, limit);
+		
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<?> create(@RequestBody @Valid CityModel cityModel) {
+
+			// SOLICITA PARA O Service A INSERÇÃO
+			Optional<CityModel> cityModelCreated = this.cityService.create(cityModel);
+
+			return buildResponse(HttpStatus.CREATED, cityModelCreated);
 		
 	}
 	
