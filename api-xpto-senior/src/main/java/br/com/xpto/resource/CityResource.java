@@ -158,5 +158,13 @@ public class CityResource extends BaseResource{
 		
 	}
 	
-	
+	@RequestMapping(value ="/{ibge}", method = RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<?> delete(@PathVariable Long ibge) {
+
+			// SOLICITA PARA O Service A INSERÇÃO
+			this.cityService.deleteById(ibge);
+
+			return buildResponse(HttpStatus.OK);
+		
+	}
 }

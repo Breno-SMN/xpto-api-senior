@@ -122,7 +122,8 @@ public class CityBusinessImpl implements CityBusiness {
 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
+		
+		cityRepository.deleteById(id);
 		
 	}
 
