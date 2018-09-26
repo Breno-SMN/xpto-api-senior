@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import br.com.xpto.business.CsvBusiness;
-import br.com.xpto.response.FileResponse;
+import br.com.xpto.model.FileModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -31,7 +31,7 @@ public class CsvResource {
 	@PostMapping("/upload")
 	public ResponseEntity<?> uploadFile(@RequestParam(name = "file", required = true) MultipartFile file) {
 	
-		return new ResponseEntity<FileResponse>(csvService.storeFile(file), HttpStatus.ACCEPTED);
+		return new ResponseEntity<FileModel>(csvService.storeFile(file), HttpStatus.ACCEPTED);
 	}
 	
 }

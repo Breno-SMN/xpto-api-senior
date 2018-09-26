@@ -18,10 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.xpto.business.CityBusiness;
 import br.com.xpto.business.CsvBusiness;
 import br.com.xpto.model.CityModel;
+import br.com.xpto.model.FileModel;
 import br.com.xpto.resource.exceptions.CsvDirectoryFailCreateException;
 import br.com.xpto.resource.exceptions.CsvException;
 import br.com.xpto.resource.exceptions.CsvUnsuportedException;
-import br.com.xpto.response.FileResponse;
 
 @Service
 public class CsvBusinessImpl implements CsvBusiness {
@@ -41,7 +41,7 @@ public class CsvBusinessImpl implements CsvBusiness {
 		}
 	}
 
-	public FileResponse storeFile(MultipartFile file) {
+	public FileModel storeFile(MultipartFile file) {
 		// Normalize file name
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename().trim());
 		try {
@@ -65,7 +65,7 @@ public class CsvBusinessImpl implements CsvBusiness {
 			// Deletar arquivo após salvar no banco em memoria
 			Files.delete(this.csvLocation.resolve(file.getOriginalFilename().trim()).normalize());
 
-			FileResponse response = new FileResponse(HttpStatus.ACCEPTED, "Salvo com sucesso",
+			FileModel response = new FileModel(HttpStatus.ACCEPTED, "Salvo com sucesso",
 					file.getContentType(), file.getSize());
 			return response;
 		} catch (Exception ex) {

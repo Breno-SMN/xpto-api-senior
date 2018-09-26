@@ -1,15 +1,15 @@
-package br.com.xpto.response;
+package br.com.xpto.model;
 
 import org.springframework.http.HttpStatus;
 
-public class FileResponse {
+public class FileModel {
 	
 	private HttpStatus status;
 	private String message;
 	private String fileType;
 	private long size;
 
-	public FileResponse(HttpStatus status, String message, String fileType, long size) {
+	public FileModel(HttpStatus status, String message, String fileType, long size) {
 		super();
 		this.status = status;
 		this.message = message;

@@ -1,4 +1,4 @@
-package br.com.xpto.util;
+package br.com.xpto.business;
 
 import java.io.Serializable;
 import java.util.List;

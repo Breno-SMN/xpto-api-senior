@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.xpto.model.CityModel;
 import br.com.xpto.model.StateModel;
-import br.com.xpto.util.GenericBusiness;
 
 public interface CityBusiness extends GenericBusiness<CityModel, Long>{
 
