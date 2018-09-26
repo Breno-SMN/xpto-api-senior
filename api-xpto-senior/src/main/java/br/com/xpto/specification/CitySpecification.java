@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.Predicate;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -18,7 +19,7 @@ public class CitySpecification {
 		List<Predicate> predicados = new ArrayList<>();
 		
 		return (root, query, criteriaBuilder) -> {
-			//try {
+			
 				for (String campo : params.keySet()) {
 						try {
 							if (CityModel.class.getDeclaredField(campo) != null) {
@@ -29,16 +30,11 @@ public class CitySpecification {
 						} catch (NoSuchFieldException e) {
 							throw new CityFieldInvalidException(new Object[] {campo});
 						} catch (SecurityException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							throw new CityException(new Object[] {campo});
 						}
 				}
 				return criteriaBuilder.and(predicados.toArray(new Predicate[predicados.size()]));
-			//} catch (Exception e) {
-			//	throw new CityException(new Object[] {e.getMessage()});
-			//}			
+				
 		};
     }
-
-	
 }

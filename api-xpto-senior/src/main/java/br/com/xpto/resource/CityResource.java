@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+
 import br.com.xpto.business.CityBusiness;
 import br.com.xpto.model.CityModel;
 import br.com.xpto.model.StateModel;
@@ -181,4 +183,17 @@ public class CityResource extends BaseResource{
 			
 		return cities;
 	}
+	
+	@GetMapping("/genericFilter/{column}")
+	public @ResponseBody ResponseEntity<?> listGenericFilterColumn(@PathVariable String column) {
+		
+			Optional<CityModel> quantityColumn = cityService.listGenericFilterColumn(column);
+			// VERIFICA SE ESTA VAZIO
+			checkNotNull(quantityColumn, "Column");
+						
+			// DEVOLVE A RESPOSTA
+			return buildResponse(OK, quantityColumn);
+
+	}
+	
 }

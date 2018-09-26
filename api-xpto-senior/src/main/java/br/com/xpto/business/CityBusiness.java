@@ -21,4 +21,6 @@ public interface CityBusiness extends GenericBusiness<CityModel, Long>{
 
 	Page<CityModel> listGenericFilter(Map<String, String> filtros, Pageable pageable);
 	
+	
+	
 }

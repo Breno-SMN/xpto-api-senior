@@ -1,6 +1,7 @@
 package br.com.xpto.business.impl;
 
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,13 +25,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-
 import br.com.xpto.business.CityBusiness;
 import br.com.xpto.model.CityModel;
 import br.com.xpto.model.StateModel;
 import br.com.xpto.repository.CityRepository;
 import br.com.xpto.resource.exceptions.CityException;
+import br.com.xpto.resource.exceptions.CityFieldInvalidException;
 import br.com.xpto.resource.exceptions.CsvConvertException;
 import br.com.xpto.resource.exceptions.InternalServerErrorException;
 import br.com.xpto.specification.CitySpecification;
@@ -218,5 +218,39 @@ public class CityBusinessImpl implements CityBusiness {
 		cities = cityRepository.findAll(CitySpecification.filtrosTodosCampos(filtros), pageable);
         return cities;
     }
+	
+	private Object buscaColuna(CityModel c, String field) {
+		try {
+			Class<?> clazz = Class.forName("br.com.xpto.model.CityModel");
+			Field f = clazz.getDeclaredField(field);
+			f.setAccessible(true);
+			Object value = f.get(c);
+			return value;
+		} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
+			throw new CityException(new Object[] {e.getMessage()});
+		} catch (NoSuchFieldException e) {
+			throw new CityFieldInvalidException(new Object[] {field});
+		} catch (ClassNotFoundException e) {
+			throw new CityFieldInvalidException(new Object[] {field});
+		}
+
+	}
+	
+	@Override
+	public Optional<CityModel> listGenericFilterColumn(String column) {
+		Long quantidade = (long) 0;
+		try {
+			
+				quantidade = (long) cityRepository.findAll().stream().map(x -> {
+					return buscaColuna(x, column);
+				}).distinct().collect(Collectors.toList()).size();
+			
+			CityModel countColumn = new CityModel(quantidade, column);
+			
+			return Optional.ofNullable(countColumn);
+		} catch (Exception e) {
+			throw new CityException(new Object[] {e.getMessage()});
+		}
+	}
 	
 }

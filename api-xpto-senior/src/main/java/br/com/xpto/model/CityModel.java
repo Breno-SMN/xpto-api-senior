@@ -10,8 +10,13 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.Transient;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @Table(name = "cities")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CityModel implements Comparable<CityModel>{
 	@Id
 	@Column(name = "ibge_id")
@@ -35,9 +40,21 @@ public class CityModel implements Comparable<CityModel>{
 	private String microregion;
 	@NotBlank
 	private String mesoregion;
+	
+	@Transient
+	private Long qtde;
+	
+	@Transient
+	private String coluna;
 
 	public CityModel() {
 		super();
+	}
+	
+	public CityModel(Long qtde, String coluna) {
+		super();
+		this.qtde= qtde;
+		this.coluna = coluna;
 	}
 
 	public CityModel(Long ibgeId, String uf, String name, String capital, BigDecimal lon, BigDecimal lat,
@@ -147,4 +164,20 @@ public class CityModel implements Comparable<CityModel>{
 	        return this.getName().compareTo(s.getName());
 	    }
 
+	public Long getQtde() {
+		return qtde;
+	}
+
+	public void setQtde(Long qtde) {
+		this.qtde = qtde;
+	}
+
+	public String getColuna() {
+		return coluna;
+	}
+
+	public void setColuna(String coluna) {
+		this.coluna = coluna;
+	}
+	
 }
