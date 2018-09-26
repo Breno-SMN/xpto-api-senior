@@ -5,10 +5,7 @@ import static org.springframework.http.HttpStatus.OK;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,14 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-
 import br.com.xpto.business.CityBusiness;
 import br.com.xpto.model.CityModel;
 import br.com.xpto.model.DistanceModel;
 import br.com.xpto.model.StateModel;
 import br.com.xpto.util.BaseResource;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
@@ -44,7 +40,7 @@ public class CityResource extends BaseResource{
 	public CityResource(CityBusiness cityService) {
 		this.cityService = cityService;
 	}
-	
+	@ApiOperation(value ="Metodo para retornar todas capitais ordenadas por nome")
 	@RequestMapping(value ="/capitais", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public @ResponseBody ResponseEntity<?> listCapitais(
 			@RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset,
@@ -67,6 +63,7 @@ public class CityResource extends BaseResource{
 		
 	}
 	
+	@ApiOperation(value ="Metodo para retornar o estado com maior e menor quandidade de cidade e suas respectivas cidades")
 	@RequestMapping(value ="/max_min_uf", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public @ResponseBody ResponseEntity<?> listMaioresMenoresUF(
 			@RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset,
@@ -89,6 +86,7 @@ public class CityResource extends BaseResource{
 		
 	}
 	
+	@ApiOperation(value ="Metodo para retornar a quantidade de cidades por estado")
 	@RequestMapping(value ="/cidadesUf", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public @ResponseBody ResponseEntity<?> listQtdCidadesUf(
 			@RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset,
@@ -111,6 +109,7 @@ public class CityResource extends BaseResource{
 		
 	}
 	
+	@ApiOperation(value ="Metodo para retornar cidades pelo codigo de ibge")
 	@RequestMapping(value ="/ibge/{ibge}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public @ResponseBody ResponseEntity<?> listCityByIbge(@PathVariable Long ibge,
 			@RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset,
@@ -133,6 +132,7 @@ public class CityResource extends BaseResource{
 		
 	}
 	
+	@ApiOperation(value ="Metodo para retornar cidades de acordo com o estado")
 	@RequestMapping(value ="/estado/{estado}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public @ResponseBody ResponseEntity<?> listCityByEstado(@PathVariable String estado,
 			@RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset,
@@ -155,6 +155,7 @@ public class CityResource extends BaseResource{
 		
 	}
 	
+	@ApiOperation(value ="Metodo para adicionar uma cidade")
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<?> create(@RequestBody @Valid CityModel cityModel) {
 
@@ -165,6 +166,7 @@ public class CityResource extends BaseResource{
 		
 	}
 	
+	@ApiOperation(value ="Metodo para deletar uma cidade")
 	@RequestMapping(value ="/{ibge}", method = RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<?> delete(@PathVariable Long ibge) {
 
@@ -175,6 +177,7 @@ public class CityResource extends BaseResource{
 		
 	}
 	
+	@ApiOperation(value ="Metodo para retornar dados de acordo com qualquer coluna passada")
 	@GetMapping("/genericFilter")
 	public @ResponseBody Page<CityModel> listGenericFilter(@RequestParam Map<String, String> filtros,
 			@RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset,
@@ -185,6 +188,7 @@ public class CityResource extends BaseResource{
 		return cities;
 	}
 	
+	@ApiOperation(value ="Metodo para retornar a contagem de registros de acordo com a coluna")
 	@GetMapping("/genericFilter/{column}")
 	public @ResponseBody ResponseEntity<?> listGenericFilterColumn(@PathVariable String column) {
 		
@@ -197,6 +201,7 @@ public class CityResource extends BaseResource{
 
 	}
 	
+	@ApiOperation(value ="Metodo para retornar a contagem de todos registros")
 	@GetMapping("/count")
 	public @ResponseBody ResponseEntity<?> countAll() {
 		
@@ -209,6 +214,7 @@ public class CityResource extends BaseResource{
 
 	}
 	
+	@ApiOperation(value ="Metodo para retornar a maior distancia em km entre as cidades da base de dados")
 	@GetMapping("/maiorDistancia")
 	public @ResponseBody ResponseEntity<?> maxDistancia() {
 		

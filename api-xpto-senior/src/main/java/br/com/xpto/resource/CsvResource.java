@@ -27,7 +27,7 @@ public class CsvResource {
 	}
 	
 	//END POINT PARA REALIZAR A INSERÇÃO DO ARQUIVO CSV
-	@ApiOperation(value = "Fazer leitura de um arquivo cvs e salvar em um banco em memoria")
+	@ApiOperation(value = "Metodo para inserir as informações do arquivo CSV na base de dados em memoria")
 	@PostMapping("/upload")
 	public ResponseEntity<?> uploadFile(@RequestParam(name = "file", required = true) MultipartFile file) {
 	
