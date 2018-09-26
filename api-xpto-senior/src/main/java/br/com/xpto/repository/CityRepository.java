@@ -20,4 +20,7 @@ public interface CityRepository extends JpaRepository<CityModel, Long>, JpaSpeci
 	@Query("SELECT NEW br.com.xpto.model.CityModel(c.ibgeId , c.uf, c.name, c.capital, c.lon, c.lat, c.noAccents, c.alternativeNames, c.microregion, c.mesoregion) "
 			+ "FROM CityModel c where c.uf = :estado order by name")
 	List<CityModel> findByEstado(@Param("estado") String estado);
+	
+	@Query("SELECT count(c) from CityModel c")
+	Long countAll();
 }

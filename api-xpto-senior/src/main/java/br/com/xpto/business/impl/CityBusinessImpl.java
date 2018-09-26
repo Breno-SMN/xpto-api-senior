@@ -252,5 +252,12 @@ public class CityBusinessImpl implements CityBusiness {
 			throw new CityException(new Object[] {e.getMessage()});
 		}
 	}
+
+
+	@Override
+	public Optional<Long> countAll() {
+			
+		return Optional.ofNullable(cityRepository.countAll());
+	}
 	
 }

@@ -196,4 +196,16 @@ public class CityResource extends BaseResource{
 
 	}
 	
+	@GetMapping("/count")
+	public @ResponseBody ResponseEntity<?> countAll() {
+		
+			Optional<Long> quantity = cityService.countAll();
+			// VERIFICA SE ESTA VAZIO
+			checkNotNull(quantity, "Registros");
+						
+			// DEVOLVE A RESPOSTA
+			return buildResponse(OK, quantity);
+
+	}
+	
 }

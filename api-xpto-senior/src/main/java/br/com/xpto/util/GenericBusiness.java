@@ -30,4 +30,6 @@ public interface GenericBusiness<T, ID extends Serializable> {
 	Optional<List<CityModel>> findByEstado(String estado);
 
 	Optional<CityModel> listGenericFilterColumn(String column);
+	
+	Optional<Long> countAll();
 }
