@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -18,7 +19,9 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +33,7 @@ import br.com.xpto.repository.CityRepository;
 import br.com.xpto.resource.exceptions.CityException;
 import br.com.xpto.resource.exceptions.CsvConvertException;
 import br.com.xpto.resource.exceptions.InternalServerErrorException;
+import br.com.xpto.specification.CitySpecification;
 
 @Service
 public class CityBusinessImpl implements CityBusiness {
@@ -208,6 +212,11 @@ public class CityBusinessImpl implements CityBusiness {
 		return Optional.ofNullable(cities);
 	}
 	
-	
+	@Override
+    public Page<CityModel> listGenericFilter(Map<String, String> filtros, Pageable pageable) {
+		Page<CityModel> cities;
+		cities = cityRepository.findAll(CitySpecification.filtrosTodosCampos(filtros), pageable);
+        return cities;
+    }
 	
 }

@@ -3,15 +3,19 @@ package br.com.xpto.resource;
 import static org.springframework.http.HttpStatus.OK;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -166,5 +170,15 @@ public class CityResource extends BaseResource{
 
 			return buildResponse(HttpStatus.OK);
 		
+	}
+	
+	@GetMapping("/genericFilter")
+	public @ResponseBody Page<CityModel> listGenericFilter(@RequestParam Map<String, String> filtros,
+			@RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset,
+			@RequestParam(name = "limit", required = false, defaultValue = "50") Integer limit) {
+		Page<CityModel> cities;
+			cities = cityService.listGenericFilter(filtros, PageRequest.of(offset, limit));
+			
+		return cities;
 	}
 }

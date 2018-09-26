@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import br.com.xpto.resource.errors.ErrorMessage;
 import br.com.xpto.resource.errors.ErrorMessageBuilder;
 import br.com.xpto.resource.exceptions.CityException;
+import br.com.xpto.resource.exceptions.CityFieldInvalidException;
 import br.com.xpto.resource.exceptions.CsvConvertException;
 import br.com.xpto.resource.exceptions.CsvDirectoryFailCreateException;
 import br.com.xpto.resource.exceptions.CsvException;
@@ -44,6 +45,14 @@ public class ExceptionResourceAdvice
   public ErrorMessage exceptionHandler(CityException ex)
   {
     return errorBuilder.withDeveloperMessage(MessageFormat.format("Internal Server Error - {0}", ex.getParameters())).withUserMessage("Houve um erro ao listar os estados").withErrorCode(30001).build();
+  }
+  
+  @ResponseBody
+  @ExceptionHandler({CityFieldInvalidException.class})
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ErrorMessage exceptionHandler(CityFieldInvalidException ex)
+  {
+    return errorBuilder.withDeveloperMessage(MessageFormat.format("Not found - {0}", ex.getParameters())).withUserMessage("Campo informado nao existe").withErrorCode(30001).build();
   }
   
   @ResponseBody

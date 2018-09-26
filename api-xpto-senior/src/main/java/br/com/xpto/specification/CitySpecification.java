@@ -9,6 +9,8 @@ import javax.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 import br.com.xpto.model.CityModel;
+import br.com.xpto.resource.exceptions.CityException;
+import br.com.xpto.resource.exceptions.CityFieldInvalidException;
 
 public class CitySpecification {
 	
@@ -16,17 +18,25 @@ public class CitySpecification {
 		List<Predicate> predicados = new ArrayList<>();
 		
 		return (root, query, criteriaBuilder) -> {
-			try {
+			//try {
 				for (String campo : params.keySet()) {
-						if (CityModel.class.getDeclaredField(campo) != null) {
-							predicados.add(criteriaBuilder.equal(root.get(campo), params.get(campo)));
-						}	
+						try {
+							if (CityModel.class.getDeclaredField(campo) != null) {
+								predicados.add(criteriaBuilder.equal(root.get(campo), params.get(campo)));
+							}else {
+								throw new CityFieldInvalidException(new Object[] {campo});
+							}
+						} catch (NoSuchFieldException e) {
+							throw new CityFieldInvalidException(new Object[] {campo});
+						} catch (SecurityException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 				}
 				return criteriaBuilder.and(predicados.toArray(new Predicate[predicados.size()]));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return null;
+			//} catch (Exception e) {
+			//	throw new CityException(new Object[] {e.getMessage()});
+			//}			
 		};
     }
 

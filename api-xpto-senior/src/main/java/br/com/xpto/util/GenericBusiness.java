@@ -2,7 +2,10 @@ package br.com.xpto.util;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import org.springframework.data.domain.Pageable;
 
 import br.com.xpto.model.CityModel;
 import br.com.xpto.model.StateModel;
@@ -25,5 +28,6 @@ public interface GenericBusiness<T, ID extends Serializable> {
 	Optional<List<StateModel>> listQtdCidadesUf();
 	
 	Optional<List<CityModel>> findByEstado(String estado);
+
 	
 }
