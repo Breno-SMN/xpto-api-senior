@@ -19,7 +19,7 @@ public class CityModel implements Comparable<CityModel>{
 	@NotBlank
 	private String uf;
 	@NotBlank
-	private String name;
+	public static String name;
 	private String capital;
 	@NotNull
 	@Digits(integer = 10, fraction = 10)
