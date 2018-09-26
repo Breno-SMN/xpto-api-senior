@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.xpto.business.CityBusiness;
 import br.com.xpto.model.CityModel;
+import br.com.xpto.model.DistanceModel;
 import br.com.xpto.model.StateModel;
 import br.com.xpto.util.BaseResource;
 import io.swagger.annotations.Api;
@@ -205,6 +206,19 @@ public class CityResource extends BaseResource{
 						
 			// DEVOLVE A RESPOSTA
 			return buildResponse(OK, quantity);
+
+	}
+	
+	@GetMapping("/maiorDistancia")
+	public @ResponseBody ResponseEntity<?> maxDistancia() {
+		
+			Optional<DistanceModel> distancia = cityService.recuperaDistancia();
+			
+			// VERIFICA SE ESTA VAZIO
+			checkNotNull(distancia, "Distancia");
+						
+			// DEVOLVE A RESPOSTA
+			return buildResponse(OK, distancia);
 
 	}
 	

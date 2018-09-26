@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import br.com.xpto.model.CityModel;
+import br.com.xpto.model.DistanceModel;
 import br.com.xpto.model.StateModel;
 
 public interface GenericBusiness<T, ID extends Serializable> {
@@ -32,4 +33,6 @@ public interface GenericBusiness<T, ID extends Serializable> {
 	Optional<CityModel> listGenericFilterColumn(String column);
 	
 	Optional<Long> countAll();
+	
+	Optional<DistanceModel> recuperaDistancia();
 }
